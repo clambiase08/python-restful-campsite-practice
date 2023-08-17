@@ -32,7 +32,10 @@ class Park(db.Model, SerializerMixin):
 
 class Campsite(db.Model, SerializerMixin):
     __tablename__ = "campsites"
-    serialize_rules = ("-reservations.campsite",)
+    serialize_rules = (
+        "-reservations.campsite",
+        "-park.campsites",
+    )
 
     id = db.Column(db.Integer, primary_key=True)
     max_capacity = db.Column(db.Integer)
@@ -63,6 +66,7 @@ class Campsite(db.Model, SerializerMixin):
 
 class Reservation(db.Model, SerializerMixin):
     __table_name__ = "reservations"
+    serialize_rules = ("-campsite.reservations",)
 
     id = db.Column(db.Integer, primary_key=True)
     start_date = db.Column(db.DateTime)
